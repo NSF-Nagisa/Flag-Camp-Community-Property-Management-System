@@ -9,7 +9,7 @@ import auth from "../utils/auth.hoc";
 
 function Main (){
     return(
-        <BrowserRouter>
+        <React.Fragment>
             <Switch>
                 <Route path="/" exact component={Login}></Route>
                 <Route path="/login" component={Login}></Route>
@@ -18,7 +18,7 @@ function Main (){
                 <Route path="/discussion-board" component={auth(DiscussionBoard)}></Route>
                 <Route path="/schedule" component={auth(Schedule)}></Route>
             </Switch> 
-        </BrowserRouter>
+        </React.Fragment>
     );
 }
 export default Main;

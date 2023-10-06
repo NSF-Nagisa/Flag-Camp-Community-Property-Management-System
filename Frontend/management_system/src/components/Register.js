@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [isSameFlag, setFlag] = useState(true);
@@ -22,42 +23,49 @@ function Register() {
 
   return (
     <div className="container d-flex justify-content-center">
-    <form onSubmit={handleSubmit}>
-  <div className="form-group">
-    <label htmlFor="registerUsername">Username</label>
-    <input type="text" className="form-control" id="registerUsername" required/>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="registerName">Name</label>
+          <input type="text" className="form-control" id="registerName" required/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="registerUsername">Username</label>
+          <input type="text" className="form-control" id="registerUsername" required/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="registerPassword1">Password</label>
+          <input type="password" className="form-control" id="registerPassword1" required/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="registerPassword2">Confirm Password</label>
+          <input type="password" className="form-control" id="registerPassword2" required/>
+          {
+            isSameFlag ? null :
+            <div className="alert alert-danger" role="alert">
+              confirm password is not same as password, please check!
+            </div>
+          }
+        </div>
+        <div className="form-group">
+          <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="registerRadioOption" id="registerResidentRadioOption" value="Resident" required/>
+            <label className="form-check-label" htmlFor="registerResidentRadioOption">Resident</label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="registerRadioOption" id="registerHOARadioOption" value="HOA"/>
+            <label className="form-check-label" htmlFor="registerHOARadioOption">HOA</label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="registerRadioOption" id="registerThirdPartyCompanyRadioOption" value="ThirdPartyCompany"/>
+            <label className="form-check-label" htmlFor="registerThirdPartyCompanyRadioOption">Third Party Company</label>
+          </div>
+        </div>
+        <div className="container row justify-content-between">
+          <button type="submit" className="btn btn-primary">Submit</button>
+          <Link className="nav-link" to="/login">Go Back</Link>
+        </div>
+    </form>
   </div>
-  <div className="form-group">
-    <label htmlFor="registerPassword1">Password</label>
-    <input type="password" className="form-control" id="registerPassword1" required/>
-  </div>
-  <div className="form-group">
-    <label htmlFor="registerPassword2">Confirm Password</label>
-    <input type="password" className="form-control" id="registerPassword2" required/>
-    {
-      isSameFlag ? null :
-      <div className="alert alert-danger" role="alert">
-        confirm password is not same as password, please check!
-      </div>
-    }
-  </div>
-  <div className="form-group">
-    <div className="form-check form-check-inline">
-      <input className="form-check-input" type="radio" name="registerRadioOption" id="registerResidentRadioOption" value="Resident" required/>
-      <label className="form-check-label" htmlFor="registerResidentRadioOption">Resident</label>
-    </div>
-    <div className="form-check form-check-inline">
-      <input className="form-check-input" type="radio" name="registerRadioOption" id="registerHOARadioOption" value="HOA"/>
-      <label className="form-check-label" htmlFor="registerHOARadioOption">HOA</label>
-    </div>
-    <div className="form-check form-check-inline">
-      <input className="form-check-input" type="radio" name="registerRadioOption" id="registerThirdPartyCompanyRadioOption" value="ThirdPartyCompany"/>
-      <label className="form-check-label" htmlFor="registerThirdPartyCompanyRadioOption">Third Party Company</label>
-    </div>
-  </div>
-  <button type="submit" className="btn btn-primary">Submit</button>
-</form>
-</div>
   );
 }
 export default Register;

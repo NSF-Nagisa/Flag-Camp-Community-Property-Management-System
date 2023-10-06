@@ -1,14 +1,20 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { login} from "../slice/authSlice";
+import { Link } from "react-router-dom";
 
-function Login() {
+function Login(props) {
+  const dispatch = useDispatch();
   const handleLogin = (event) => {
-    event.preventDefault();
     const [username, password] = event.target;
     const userLogin = {
       username: username.value,
       password: password.value
     }
     // ToDo: post userLogin to /login API
+
+    dispatch(login());
+    props.history.push('/dashboard');
   };
 
   return (
@@ -24,7 +30,7 @@ function Login() {
         </div>
         <div className="container row">
           <button type="submit" className="btn btn-primary">Submit</button>
-          <a className="nav-link" href="/register">Register</a>
+          <Link className="nav-link" to="/register">Register</Link>
         </div>
       </form>
     </div>
