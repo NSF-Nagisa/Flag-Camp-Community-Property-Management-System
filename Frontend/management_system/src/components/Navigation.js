@@ -3,9 +3,11 @@ import { useDispatch } from "react-redux";
 import { logout } from "../slice/authSlice";
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
+import { Role } from "../constants/Role";
 
-function Navigation(props) {
+function Navigation() {
   const isLoggedIn = useSelector(state => state.isLoggedIn.value);
+  const user = useSelector(state => state.isLoggedIn.user);
   const dispatch = useDispatch();
   return (
     <nav className="navbar navbar-expand-lg flex-row navbar-light bg-light justify-content-between">
@@ -22,8 +24,24 @@ function Navigation(props) {
               <li className="nav-item">
                   <Link className="nav-link" to="/schedule">Schedule</Link>
               </li>
+              <li className="nav-item">
+                  <Link className="nav-link" to="/profile">Profile</Link>
+              </li>
+              {
+                user.role === Role.HOA ?
+                  <li className="nav-item">
+                      <Link className="nav-link" to="/register">Register</Link>
+                  </li>
+                    : null
+              }
+              
           </ul>
-          <button className="btn btn-secondary btn-sm ml-auto p-2" type="button" onClick={() => dispatch(logout())}>Logout</button>
+          <div className=" ml-auto p-2">
+            <span className="navbar-text p-2">
+              Welcome, {user.name} !
+            </span>
+            <button className="btn btn-secondary btn-sm p-2" type="button" onClick={() => dispatch(logout())}>Logout</button>
+          </div>
         </React.Fragment>
       ) : null}
     </nav>
