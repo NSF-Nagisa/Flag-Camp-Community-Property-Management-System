@@ -25,9 +25,10 @@ function Register() {
       password: password,
       role: role,
       phone: undefined,
-      company: undefined
+      company: undefined,
+      image: undefined
     }
-    console.log(JSON.stringify(newUser));
+    // console.log(JSON.stringify(newUser));
     // ToDO: add fetch() to post newForm to /addUser API 
     USERS.push(newUser);
     setName("");

@@ -5,6 +5,7 @@ import { login} from "../slice/authSlice";
 function Login(props) {
   const dispatch = useDispatch();
   const handleLogin = (event) => {
+    event.preventDefault();
     const [username, password] = event.target;
     const account = {
       username: username.value,
