@@ -1,16 +1,17 @@
-import React from "react";
-import Main from "./Main";
-import Navigation from "./Navigation";
-import Schedule from "./Schedule";
-import { useSelector } from "react-redux";
+
+import React from 'react';
+import Main from './Main';
+import Navigation from './Navigation';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
   return (
-    <React.Fragment>
-      <Navigation isLoggedIn={true} />
-      <Main />
-    </React.Fragment>
+    <BrowserRouter>
+      <div>
+        <Navigation/>
+        <Main/>
+      </div>
+    </BrowserRouter>
   );
 }
 
