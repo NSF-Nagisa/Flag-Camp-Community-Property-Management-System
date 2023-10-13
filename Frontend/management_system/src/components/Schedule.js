@@ -1,59 +1,69 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { TZDate } from "@toast-ui/calendar";
 import Calendar from "@toast-ui/react-calendar";
 import "@toast-ui/calendar/dist/toastui-calendar.min.css";
+import "tui-date-picker/dist/tui-date-picker.css";
+import "tui-time-picker/dist/tui-time-picker.css";
 import Button from "react-bootstrap/Button";
+
+const today = new TZDate();
+const initialEvents = [
+  {
+    id: "1",
+    user: "",
+    calendarId: "0",
+    title: "TOAST UI Calendar Study",
+    category: "time",
+    start: today,
+    end: addHours(today, 3),
+  },
+  {
+    id: "2",
+    uid: "",
+    calendarId: "0",
+    title: "Practice",
+    category: "time",
+    start: addDate(today, 1),
+    end: addDate(today, 1),
+  },
+  {
+    id: "3",
+    uid: "",
+    calendarId: "0",
+    title: "FE Workshop",
+    category: "allday",
+    start: subtractDate(today, 2),
+    end: subtractDate(today, 1),
+  },
+  {
+    id: "4",
+    uid: "",
+    calendarId: "0",
+    title: "Report",
+    category: "time",
+    start: today,
+    end: addHours(today, 1),
+  },
+];
 
 function Schedule() {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
-  const today = new TZDate();
-  const initialCalendars = [
-    {
-      id: "0",
-      name: "Public",
-      backgroundColor: "#9e5fff",
-      borderColor: "#9e5fff",
-      dragBackgroundColor: "#9e5fff",
-    },
-  ];
-  const initialEvents = [
-    {
-      id: "1",
-      calendarId: "0",
-      title: "TOAST UI Calendar Study",
-      category: "time",
-      start: today,
-      end: addHours(today, 3),
-    },
-    {
-      id: "2",
-      calendarId: "0",
-      title: "Practice",
-      category: "time",
-      start: addDate(today, 1),
-      end: addDate(today, 1),
-      isReadOnly: true,
-    },
-    {
-      id: "3",
-      calendarId: "0",
-      title: "FE Workshop",
-      category: "allday",
-      start: subtractDate(today, 2),
-      end: subtractDate(today, 1),
-      isReadOnly: true,
-    },
-    {
-      id: "4",
-      calendarId: "0",
-      title: "Report",
-      category: "time",
-      start: today,
-      end: addHours(today, 1),
-      isReadOnly: true,
-    },
-  ];
+  const user = useSelector((state) => state.isloggedIn.user);
+  var eventsForUser = initialEvents.map((event) => ({
+    ...event,
+    isReadOnly: event.user === user,
+  }));
+
+  useEffect(() => {
+    eventsForUser = initialEvents.map((event) => ({
+      ...event,
+      isReadOnly: event.user === user,
+    }));
+
+    console.log(eventsForUser);
+  }, [user]);
 
   const getCalInstance = useCallback(
     () => calendarRef.current?.getInstance?.(),
@@ -131,19 +141,6 @@ function Schedule() {
     console.groupEnd();
   };
 
-  const onClickTimezonesCollapseBtn = (timezoneCollapsed) => {
-    console.group("onClickTimezonesCollapseBtn");
-    console.log("Is Timezone Collapsed?: ", timezoneCollapsed);
-    console.groupEnd();
-
-    const newTheme = {
-      "week.daygridLeft.width": "100px",
-      "week.timegridLeft.width": "100px",
-    };
-
-    getCalInstance().setTheme(newTheme);
-  };
-
   const onBeforeUpdateEvent = (updateData) => {
     console.group("onBeforeUpdateEvent");
     console.log(updateData);
@@ -161,7 +158,7 @@ function Schedule() {
 
   const onBeforeCreateEvent = (eventData) => {
     const event = {
-      calendarId: eventData.calendarId || "",
+      calendarId: "",
       id: String(Math.random()),
       title: eventData.title,
       isAllday: eventData.isAllday,
@@ -171,7 +168,6 @@ function Schedule() {
       dueDateClass: "",
       location: eventData.location,
       state: eventData.state,
-      isPrivate: eventData.isPrivate,
     };
 
     getCalInstance().createEvents([event]);
@@ -179,7 +175,6 @@ function Schedule() {
 
   return (
     <React.Fragment>
-      <h1>Calendar</h1>
       <div>
         <span>
           <Button
@@ -212,8 +207,8 @@ function Schedule() {
       <Calendar
         usageStatistics={false}
         height="900px"
-        calendars={initialCalendars}
-        events={initialEvents}
+        calendars={[]}
+        events={eventsForUser}
         template={{
           allday(event) {
             return `[All day] ${event.title}`;
@@ -235,7 +230,6 @@ function Schedule() {
         onBeforeDeleteEvent={onBeforeDeleteEvent}
         onClickDayname={onClickDayName}
         onClickEvent={onClickEvent}
-        onClickTimezonesCollapseBtn={onClickTimezonesCollapseBtn}
         onBeforeUpdateEvent={onBeforeUpdateEvent}
         onBeforeCreateEvent={onBeforeCreateEvent}
       />
