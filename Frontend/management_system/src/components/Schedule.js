@@ -6,63 +6,34 @@ import "@toast-ui/calendar/dist/toastui-calendar.min.css";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import Button from "react-bootstrap/Button";
-
-const today = new TZDate();
-const initialEvents = [
-  {
-    id: "1",
-    user: "",
-    calendarId: "0",
-    title: "TOAST UI Calendar Study",
-    category: "time",
-    start: today,
-    end: addHours(today, 3),
-  },
-  {
-    id: "2",
-    uid: "",
-    calendarId: "0",
-    title: "Practice",
-    category: "time",
-    start: addDate(today, 1),
-    end: addDate(today, 1),
-  },
-  {
-    id: "3",
-    uid: "",
-    calendarId: "0",
-    title: "FE Workshop",
-    category: "allday",
-    start: subtractDate(today, 2),
-    end: subtractDate(today, 1),
-  },
-  {
-    id: "4",
-    uid: "",
-    calendarId: "0",
-    title: "Report",
-    category: "time",
-    start: today,
-    end: addHours(today, 1),
-  },
-];
+import { ScheduleEvents } from "../constants/ScheduleEvents";
 
 function Schedule() {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
-  const user = useSelector((state) => state.isloggedIn.user);
-  var eventsForUser = initialEvents.map((event) => ({
+  // const user = useSelector((state) => state.isloggedIn.user);
+  const user = {
+    id: 1,
+    name: "Ruby",
+    role: "resident",
+    username: "resident",
+    password: "123",
+    phone: null,
+    company: null,
+    image: null,
+  };
+  var eventsForUser = ScheduleEvents.map((event) => ({
     ...event,
     isReadOnly: event.user === user,
   }));
 
   useEffect(() => {
-    eventsForUser = initialEvents.map((event) => ({
+    eventsForUser = ScheduleEvents.map((event) => ({
       ...event,
       isReadOnly: event.user === user,
     }));
 
-    console.log(eventsForUser);
+    console.log("Update" + eventsForUser);
   }, [user]);
 
   const getCalInstance = useCallback(
@@ -113,8 +84,14 @@ function Schedule() {
     console.groupEnd();
 
     const { id, calendarId } = res;
-
-    getCalInstance().deleteEvent(id, calendarId);
+    const indexToDelete = ScheduleEvents.findIndex((event) => event.id === id);
+    if (indexToDelete !== -1) {
+      ScheduleEvents.splice(indexToDelete, 1);
+      console.log(ScheduleEvents);
+      getCalInstance().deleteEvent(id, calendarId);
+    } else {
+      console.log("Event with ID not found.");
+    }
   };
 
   const onClickDayName = (res) => {
@@ -148,7 +125,10 @@ function Schedule() {
 
     const targetEvent = updateData.event;
     const changes = { ...updateData.changes };
-
+    const eventToUpdate = ScheduleEvents.find(
+      (event) => event.id === targetEvent.id
+    );
+    console.log(changes);
     getCalInstance().updateEvent(
       targetEvent.id,
       targetEvent.calendarId,
@@ -171,6 +151,9 @@ function Schedule() {
     };
 
     getCalInstance().createEvents([event]);
+    event.user = user.id;
+    ScheduleEvents.push(event);
+    console.log(ScheduleEvents);
   };
 
   return (
