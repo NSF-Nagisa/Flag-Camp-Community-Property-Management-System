@@ -24,17 +24,15 @@ function Schedule() {
   };
   var eventsForUser = ScheduleEvents.map((event) => ({
     ...event,
-    isReadOnly: event.user === user,
+    isReadOnly: event.user !== user.id,
   }));
 
   useEffect(() => {
     eventsForUser = ScheduleEvents.map((event) => ({
       ...event,
-      isReadOnly: event.user === user,
+      isReadOnly: event.user !== user.id,
     }));
-
-    console.log("Update" + eventsForUser);
-  }, [user]);
+  }, []);
 
   const getCalInstance = useCallback(
     () => calendarRef.current?.getInstance?.(),
@@ -74,7 +72,7 @@ function Schedule() {
 
   const onAfterRenderEvent = (res) => {
     console.group("onAfterRenderEvent");
-    console.log("Event Info : ", res.title);
+    console.log("Event Info : ", res.title, res.user);
     console.groupEnd();
   };
 
@@ -128,7 +126,10 @@ function Schedule() {
     const eventToUpdate = ScheduleEvents.find(
       (event) => event.id === targetEvent.id
     );
-    console.log(changes);
+    Object.keys(changes).map((k) => {
+      eventToUpdate[k] = changes[k];
+    });
+    console.log(Object.keys(changes));
     getCalInstance().updateEvent(
       targetEvent.id,
       targetEvent.calendarId,
