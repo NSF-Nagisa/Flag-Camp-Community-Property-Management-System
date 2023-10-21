@@ -9,7 +9,7 @@ export const ScheduleEvents = [
   },
   {
     id: "2",
-    uid: "6",
+    user: "6",
     title: "Practice",
     category: "time",
     start: "2023-10-20T17:30:00+09:00",
@@ -17,7 +17,7 @@ export const ScheduleEvents = [
   },
   {
     id: "3",
-    uid: "4",
+    user: "4",
     title: "FE Workshop",
     category: "allday",
     start: "2023-10-20T17:30:00+09:00",
@@ -25,7 +25,7 @@ export const ScheduleEvents = [
   },
   {
     id: "4",
-    uid: "8",
+    user: "1",
     title: "Report",
     category: "time",
     start: "2023-10-20T17:30:00+09:00",
