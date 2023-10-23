@@ -11,17 +11,17 @@ function Schedule() {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
   const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
-  const user = useSelector((state) => state.isloggedIn?.user);
-  // const user = {
-  //   id: 1,
-  //   name: "Ruby",
-  //   role: "resident",
-  //   username: "resident",
-  //   password: "123",
-  //   phone: null,
-  //   company: null,
-  //   image: null,
-  // };
+  // const user = useSelector((state) => state.isloggedIn?.user);
+  const user = {
+    id: 1,
+    name: "Ruby",
+    role: "resident",
+    username: "resident",
+    password: "123",
+    phone: null,
+    company: null,
+    image: null,
+  };
 
   var eventsForUser = ScheduleEvents.map((event) => ({
     ...event,
