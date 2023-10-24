@@ -35,18 +35,24 @@ function PolicyCard({ policy, onDelete, onUpdate }) {
   
   // Define custom styles for the Card component
   const cardStyles = {
-    width: '400px', // Set the width as desired
-    height: '400px', // Set the height as desired
+    width: '80%', // Set the width as desired
+    height: 'auto', // Set the height as desired
     margin: '20px',
   };
+
+  const timeStyles = { 
+    fontWeight: 'bold',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    color: 'darkgray'
+  }
 
   return (
     <Card style={cardStyles}>
       <Card.Body>
-        <Card.Title>Title: {policy.title}</Card.Title>
-        <Card.Text>Description: {policy.description}</Card.Text>
-        <Card.Text>Date: {policy.date}</Card.Text>
-        <Card.Text>ID: {policy.id}</Card.Text>
+        <Card.Title>{policy.title}</Card.Title>
+        <Card.Text>{policy.description}</Card.Text>
+        <Card.Text style={timeStyles}>Date: {policy.date}</Card.Text>
       </Card.Body>
       
       {/* Add the "Delete" and "Update" buttons here */}
@@ -62,7 +68,7 @@ function PolicyCard({ policy, onDelete, onUpdate }) {
         </Card.Footer>
        )}
       <Modal show={showModal} onHide={handleModalClose}>
-        <Modal.Header closeButton>
+        <Modal.Header >
           <Modal.Title>Edit Policy</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -82,15 +88,6 @@ function PolicyCard({ policy, onDelete, onUpdate }) {
                 as="textarea"
                 name="description"
                 value={formData.description}
-                onChange={handleFormChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Date</Form.Label>
-              <Form.Control
-                type="text"
-                name="date"
-                value={formData.date}
                 onChange={handleFormChange}
               />
             </Form.Group>

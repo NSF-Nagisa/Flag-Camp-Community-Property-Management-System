@@ -8,60 +8,57 @@ import AddItemModal from './AddItemModal';
 import { Role } from '../constants/Role'; // Import the roles
 import { useSelector } from "react-redux";
 
-function Dashboard() {
-  // add initial mock data
-  const initialData = [
-    {
-      id: 1,
-      type: 'events',
-      title: 'Monthly Maintenance Meeting',
-      description: 'Discuss maintenance tasks, repairs, and vendor updates for the month of November.',
-      date: '2023-11-01',
-      time: '10:00 AM - 12:00 PM',
-      location: 'Property Management Office',
-      
-    },
-    {
-      id: 2,
-      type: 'alerts',
-      title: 'Emergency Maintenance Alert',
-      description: 'Urgent repair required for a water leak in Building A. Maintenance team dispatched.',
-      date: '2023-10-18',
-      time: '09:30 AM',
-      location: 'Building A, Unit 203',
-    },
+// add initial mock data
+var initialData = [
+  {
+    id: 1,
+    type: 'events',
+    title: 'Monthly Maintenance Meeting',
+    description: 'Discuss maintenance tasks, repairs, and vendor updates for the month of November.',
+    date: '2023-11-01',
+    time: '10:00 AM - 12:00 PM',
+    location: 'Property Management Office',
+    
+  },
+  {
+    id: 2,
+    type: 'alerts',
+    title: 'Emergency Maintenance Alert',
+    description: 'Urgent repair required for a water leak in Building A. Maintenance team dispatched.',
+    date: '2023-10-18',
+    time: '09:30 AM',
+    location: 'Building A, Unit 203',
+  },
 
-    {
-      id: 3,
-      type: 'news',
-      title: 'New Property Management Officer',
-      description: 'We have a new property management manager Kevin Dart joining this month',
-      date: '2023-10-19',
-    },
-    {
-      id: 4,
-      type: 'policies',
-      title: 'Tenant Rental Policy',
-      description: 'Guidelines and regulations for tenants regarding rent payments, lease terms, and responsibilities. web link is www.property.com/policy',
-      date: '2023-10-20',
-    },
-  ];
+  {
+    id: 3,
+    type: 'news',
+    title: 'New Property Management Officer',
+    description: 'We have a new property management manager Kevin Dart joining this month',
+    date: '2023-10-19',
+  },
+  {
+    id: 4,
+    type: 'policies',
+    title: 'Tenant Rental Policy',
+    description: 'Guidelines and regulations for tenants regarding rent payments, lease terms, and responsibilities. web link is www.property.com/policy',
+    date: '2023-10-20',
+  },
+];
+
+function Dashboard() {
+  
   const [items, setItems] = useState(initialData);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState('events'); // Default to 'events'
   const user = useSelector(state => state.isLoggedIn.user);
-  // Define state for capturing item details
-  //const [itemType, setItemType] = useState('events');
-  //const [itemTitle, setItemTitle] = useState('');
-  //const [itemDescription, setItemDescription] = useState('');
-  //const [itemDate, setItemDate] = useState('');
-  //const user = useSelector((state)=> state.isloggedIn.user);
+
   // Function to add a new item
-  console.log("User:", user);
   const addItem = (newItem) => {
     if (user.role === Role.HOA) {
       setItems([...items, newItem]);
+      initialData.push(newItem);
     }     
     
   };
@@ -75,6 +72,8 @@ function Dashboard() {
   
        // Update the state with the new event data
        setItems(updatedItems);
+       initialData = initialData.map((item) =>
+          item.id === itemId ? { ...item, ...updatedData } : item);
     }
   }
   
@@ -84,6 +83,7 @@ function Dashboard() {
     if (user.role === Role.HOA) {
       const updatedItems = items.filter(item => item.id !== itemId);
       setItems(updatedItems);
+      initialData = initialData.filter(obj => obj.id != itemId);
     }
   };
 
@@ -91,7 +91,6 @@ function Dashboard() {
 
   // Render item cards based on the selected tab
   const renderItems = () => {
-    console.log('Rendering items:', items, selectedTab);
     try{
       return items
       .filter(item => item.type === selectedTab)
@@ -118,34 +117,38 @@ function Dashboard() {
     }
   };
 
+  const addButtonStyles = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: '20%',
+  }
   return (
     <div>
       {/* Navigation Bar */}
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="/">Community Dashboard</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
-              <Nav.Link onClick={() => setSelectedTab('events')}>events</Nav.Link>
-              <Nav.Link onClick={() => setSelectedTab('alerts')}>alerts</Nav.Link>
-              <Nav.Link onClick={() => setSelectedTab('news')}>news</Nav.Link>
-              <Nav.Link onClick={() => setSelectedTab('policies')}>policies</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      
-      <Container>
-        <Row>
-          <Col md={3}>{/* Sidebar or other content */}</Col>
+      <Row>
+        <Col>
+          <Navbar bg="light" expand="lg">
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav.Link onClick={() => setSelectedTab('events')}>events</Nav.Link>
+                <Nav.Link onClick={() => setSelectedTab('alerts')}>alerts</Nav.Link>
+                <Nav.Link onClick={() => setSelectedTab('news')}>news</Nav.Link>
+                <Nav.Link onClick={() => setSelectedTab('policies')}>policies</Nav.Link>
+              </Navbar.Collapse>
+          </Navbar>
+        </Col>
+      </Row>
+      <Row>
+          <Col md={2}>{/* Sidebar or other content */}</Col>
           <Col md={9}>
-            {/* Add Item Button */}
-            {user.role === Role.HOA && (
-              <Button onClick={() => setShowAddItemModal(true)}>
-                 Add {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
-              </Button>
-             )}
+            <Row style={addButtonStyles}>
+              {/* Add Item Button */}
+              {user.role === Role.HOA && (
+                <Button  onClick={() => setShowAddItemModal(true)}>
+                  Add {selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}
+                </Button>
+              )}
+             </Row>
             {/* Item Cards */}
             <h2>{selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}</h2>
             
@@ -154,13 +157,12 @@ function Dashboard() {
 
             </Row>
           </Col>
-        </Row>
-      </Container>
+      </Row>
 
       {/* Add Item Modal */}
       <AddItemModal
         show={showAddItemModal}
-        onHide={() => setShowAddItemModal(false)}
+        setShowAddItemModal={setShowAddItemModal}
         onAdd={addItem}
         selectedTab={selectedTab}
        

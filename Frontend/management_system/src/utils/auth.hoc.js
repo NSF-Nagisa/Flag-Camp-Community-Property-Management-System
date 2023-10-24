@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function auth(ExistingComponent  ) {
     return function WrapperComponent(props){
