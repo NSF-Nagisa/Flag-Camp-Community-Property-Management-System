@@ -34,7 +34,7 @@ function Navigation() {
                   </li>
                     : null
               }
-              
+
           </ul>
           <div className=" ml-auto p-2">
             <span className="navbar-text p-2">
@@ -48,3 +48,4 @@ function Navigation() {
   );
 }
 export default Navigation;
+

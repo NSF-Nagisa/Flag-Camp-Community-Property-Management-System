@@ -23,7 +23,6 @@ function Main (){
         }else{
             return <Redirect to="/login" />;
         }
-        
     }
     return(
         <React.Fragment>
