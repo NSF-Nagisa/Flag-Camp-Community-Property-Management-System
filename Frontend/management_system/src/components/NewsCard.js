@@ -51,7 +51,7 @@ function NewsCard({ news, onDelete, onUpdate }) {
       <Card.Body>
         <Card.Title>{news.title}</Card.Title>
         <Card.Text>{news.description}</Card.Text>
-        <Card.Text style={timeStyles}>Date: {news.date}</Card.Text>
+        <footer className="blockquote-footer" style={timeStyles}>{news.date}</footer>
       </Card.Body>
       
       {/* Add the "Delete" and "Update" buttons here */}

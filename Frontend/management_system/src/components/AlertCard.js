@@ -51,7 +51,7 @@ function AlertCard({ alert, onDelete, onUpdate }) {
       <Card.Body>
         <Card.Title>{alert.title}</Card.Title>
         <Card.Text>{alert.description}</Card.Text>
-        <Card.Text style={timeStyles}>Time: {alert.date} {alert.time}</Card.Text>
+        <footer className="blockquote-footer" style={timeStyles}>{alert.date} {alert.time}</footer>
       </Card.Body>
       
       {/* Add the "Delete" and "Update" buttons here */}

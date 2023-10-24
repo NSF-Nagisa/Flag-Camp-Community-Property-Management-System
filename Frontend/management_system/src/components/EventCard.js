@@ -52,7 +52,7 @@ function EventCard({ event, onDelete, onUpdate}) {
       <Card.Body>
         <Card.Title>{event.title}</Card.Title>
         <Card.Text>{event.description}</Card.Text>
-        <Card.Text style={timeStyles}>Time: {event.date} {event.time}</Card.Text>
+        <footer className="blockquote-footer" style={timeStyles}>{event.date} {event.time}</footer>
       </Card.Body>
       
       {/* Add the "Delete" and "Update" buttons here */}

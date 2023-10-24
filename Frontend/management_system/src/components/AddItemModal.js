@@ -14,17 +14,22 @@ function AddItemModal({ show, onAdd, selectedTab, setShowAddItemModal}) {
   const handleAddItem = () => {
     // Check if all required fields are filled
     if (itemTitle && itemDescription) {
+      const curDate = now.getFullYear() + '-' + ('0' + month).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+      const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+      const curTime = ('0'  + now.getHours()).slice(-2) +':'+('0' + now.getMinutes()).slice(-2) + ' ' + ampm;
       const newItem = {
         type: selectedTab,
         id: Date.now(), 
         title: itemTitle,
         description: itemDescription,
-        date: now.getFullYear() + '-' + month + '-' + now.getDate(),
+        // date: now.getFullYear() + '-' + month + '-' + now.getDate(),
+        date: curDate
       
       };
 
       if (selectedTab === 'events' || selectedTab === 'alerts') {
-        newItem.time = now.getHours() + ':' + now.getMinutes();
+        // newItem.time = now.getHours() + ':' + now.getMinutes();
+        newItem.time = curTime;
         newItem.location = itemLocation;
       }
 

@@ -38,6 +38,7 @@ function PolicyCard({ policy, onDelete, onUpdate }) {
     width: '80%', // Set the width as desired
     height: 'auto', // Set the height as desired
     margin: '20px',
+    whiteSpace: 'pre-wrap',
   };
 
   const timeStyles = { 
@@ -51,8 +52,12 @@ function PolicyCard({ policy, onDelete, onUpdate }) {
     <Card style={cardStyles}>
       <Card.Body>
         <Card.Title>{policy.title}</Card.Title>
-        <Card.Text>{policy.description}</Card.Text>
-        <Card.Text style={timeStyles}>Date: {policy.date}</Card.Text>
+        {/* <Card.Text>{policy.description}</Card.Text> */}
+        <p>
+          {policy.description}
+        </p>
+        
+        <footer className="blockquote-footer" style={timeStyles}>{policy.date}</footer>
       </Card.Body>
       
       {/* Add the "Delete" and "Update" buttons here */}
