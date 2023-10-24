@@ -122,19 +122,34 @@ function Dashboard() {
     justifyContent: 'flex-end',
     paddingRight: '20%',
   }
+
+  const navbarStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: '30rem'
+    
+  }
+  const linkStyles = {
+    marginLeft: '10rem',
+    fontWeight: 'bold',
+  }
   return (
     <div>
       {/* Navigation Bar */}
       <Row>
         <Col>
-          <Navbar bg="light" expand="lg">
+          <Navbar bg="light" expand="lg" data-bs-theme="dark">
+            <Container>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav.Link onClick={() => setSelectedTab('events')}>events</Nav.Link>
-                <Nav.Link onClick={() => setSelectedTab('alerts')}>alerts</Nav.Link>
-                <Nav.Link onClick={() => setSelectedTab('news')}>news</Nav.Link>
-                <Nav.Link onClick={() => setSelectedTab('policies')}>policies</Nav.Link>
+              <Navbar.Collapse id="basic-navbar-nav" style={navbarStyles}>
+                <Nav className="me-auto">
+                  <Nav.Link style={linkStyles} onClick={() => setSelectedTab('events')}>Events</Nav.Link>
+                  <Nav.Link style={linkStyles} onClick={() => setSelectedTab('alerts')}>Alerts</Nav.Link>
+                  <Nav.Link style={linkStyles} onClick={() => setSelectedTab('news')}>News</Nav.Link>
+                  <Nav.Link style={linkStyles} onClick={() => setSelectedTab('policies')}>Policies</Nav.Link>
+                </Nav>
               </Navbar.Collapse>
+            </Container>
           </Navbar>
         </Col>
       </Row>
@@ -149,9 +164,6 @@ function Dashboard() {
                 </Button>
               )}
              </Row>
-            {/* Item Cards */}
-            <h2>{selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}</h2>
-            
             <Row>
               {renderItems()}
 

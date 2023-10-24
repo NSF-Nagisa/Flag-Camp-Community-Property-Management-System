@@ -10,7 +10,7 @@ function Navigation() {
   const user = useSelector(state => state.isLoggedIn.user);
   const dispatch = useDispatch();
   return (
-    <nav className="navbar navbar-expand-lg flex-row navbar-light bg-light justify-content-between">
+    <nav className="navbar navbar-expand-lg flex-row navbar-dark bg-dark justify-content-between">
       <Link className="navbar-brand p-2" to={isLoggedIn ? "/dashboard" : "/login"}>Management System</Link>
       {isLoggedIn ? (
         <React.Fragment>
