@@ -2,6 +2,7 @@ export const ScheduleEvents = [
   {
     id: "1",
     user: "5",
+    attendees: ["Jack"],
     title: "TOAST UI Calendar Study",
     category: "time",
     start: "2023-10-18T22:30:00+09:00",
@@ -10,6 +11,7 @@ export const ScheduleEvents = [
   {
     id: "2",
     user: "6",
+    attendees: ["Biden"],
     title: "Practice",
     category: "time",
     start: "2023-10-20T17:30:00+09:00",
@@ -18,6 +20,7 @@ export const ScheduleEvents = [
   {
     id: "3",
     user: "4",
+    attendees: ["Amber"],
     title: "FE Workshop",
     category: "allday",
     start: "2023-10-20T17:30:00+09:00",
@@ -26,6 +29,7 @@ export const ScheduleEvents = [
   {
     id: "4",
     user: "1",
+    attendees: ["Rubby"],
     title: "Report",
     category: "time",
     start: "2023-10-20T17:30:00+09:00",

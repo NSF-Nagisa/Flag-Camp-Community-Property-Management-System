@@ -7,33 +7,21 @@ import "tui-time-picker/dist/tui-time-picker.css";
 import Button from "react-bootstrap/Button";
 import { ScheduleEvents } from "../constants/ScheduleEvents";
 
-function Schedule() {
+function Schedule({ user }) {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
   const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
-  // const user = useSelector((state) => state.isloggedIn?.user);
-  const user = {
-    id: 1,
-    name: "Ruby",
-    role: "resident",
-    username: "resident",
-    password: "123",
-    phone: null,
-    company: null,
-    image: null,
-  };
-
-  var eventsForUser = ScheduleEvents.map((event) => ({
-    ...event,
-    isReadOnly: event.user !== user?.id,
-  }));
+  console.log(user);
 
   useEffect(() => {
-    eventsForUser = ScheduleEvents.map((event) => ({
-      ...event,
-      isReadOnly: event.user !== user?.id,
-    }));
-  }, [user]);
+    if (isLoggedIn) {
+      ScheduleEvents.map((item) => {
+        const event = getCalInstance().getEvent(item.id, "");
+        const changes = { isReadOnly: user.id != item.user };
+        onBeforeUpdateEvent({ changes, event });
+      });
+    }
+  }, [isLoggedIn]);
 
   const getCalInstance = useCallback(
     () => calendarRef.current?.getInstance?.(),
@@ -142,6 +130,7 @@ function Schedule() {
     const event = {
       calendarId: "",
       id: String(Math.random()),
+      attendees: [user.name],
       title: eventData.title,
       isAllday: eventData.isAllday,
       start: eventData.start,
@@ -153,7 +142,7 @@ function Schedule() {
     };
     console.log(user);
     getCalInstance().createEvents([event]);
-    event.user = user?.id;
+    event.user = user.id;
     ScheduleEvents.push(event);
     console.log(ScheduleEvents);
   };
@@ -194,7 +183,7 @@ function Schedule() {
           usageStatistics={false}
           height="900px"
           calendars={[]}
-          events={eventsForUser}
+          events={ScheduleEvents}
           template={{
             allday(event) {
               return `[All day] ${event.title}`;
