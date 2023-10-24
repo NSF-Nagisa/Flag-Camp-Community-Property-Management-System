@@ -29,7 +29,7 @@ function Register() {
       image: undefined
     }
     // console.log(JSON.stringify(newUser));
-    // ToDO: add fetch() to post newForm to /addUser API
+    // ToDO: add fetch() to post newForm to /addUser API 
     USERS.push(newUser);
     setName("");
     setUsername("");

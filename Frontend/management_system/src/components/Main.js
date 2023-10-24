@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import {useSelector} from "react-redux";
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
@@ -8,6 +7,7 @@ import DiscussionBoard from "./DiscussionBoard";
 import Schedule from "./Schedule";
 import auth from "../utils/auth.hoc";
 import Profile from "./profile";
+import { useSelector } from "react-redux";
 import { Role } from "../constants/Role";
 
 function Main (){
@@ -23,7 +23,6 @@ function Main (){
         }else{
             return <Redirect to="/login" />;
         }
-       
     }
     return(
         <React.Fragment>
@@ -35,7 +34,7 @@ function Main (){
                 <Route path="/discussion-board" component={auth(DiscussionBoard)}></Route>
                 <Route path="/schedule" component={auth(Schedule)}></Route>
                 <Route path="/profile" component={auth(Profile)}></Route>
-            </Switch>
+            </Switch> 
         </React.Fragment>
     );
 }
