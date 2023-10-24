@@ -126,7 +126,7 @@ var initialData = [
     id: 8,
     type: "events",
     title: "Family Movie Night",
-    description: `Bring your blankets and chairs for a fun family movie night under the stars. We'll be showing [Movie Title]. Popcorn and drinks will be provided.`,
+    description: `Bring your blankets and chairs for a fun family movie night under the stars. We'll be showing <The Pursuit of Happyness>. Popcorn and drinks will be provided.`,
     date: "2023-09-27",
     time: "19:00 PM",
   },
@@ -135,8 +135,8 @@ var initialData = [
     type: "events",
     title: "Annual HOA Meeting",
     description: `Our annual Homeowner's Association meeting is an opportunity to discuss community matters, review the budget, and elect board members. Your participation is crucial in shaping our community's future.`,
-    date: "2023-09-27",
-    time: "19:00 PM",
+    date: "2023-09-20",
+    time: "14:00 PM",
   },
 ];
 
