@@ -6,8 +6,6 @@ function AddItemModal({ show, onAdd, selectedTab, setShowAddItemModal}) {
   const month = now.getMonth() + 1;
   const [itemTitle, setItemTitle] = useState('');
   const [itemDescription, setItemDescription] = useState('');
-  const [itemDate, setItemDate] = useState(now.getFullYear() + '-' + month + '-' + now.getDate());
-  const [itemTime, setItemTime] = useState(now.getHours() + ':' + now.getMinutes());
   const [itemLocation, setItemLocation] = useState('');
 
 
@@ -40,15 +38,11 @@ function AddItemModal({ show, onAdd, selectedTab, setShowAddItemModal}) {
       // Clear input fields
       setItemTitle('');
       setItemDescription('');
-      setItemDate('');
-      setItemTime('');
     }
   };
   const onHide = () => {
     setItemTitle('');
     setItemDescription('');
-    setItemDate('');
-    setItemTime('');
     setShowAddItemModal(false);
   }
   return (
