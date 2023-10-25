@@ -1,69 +1,27 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { TZDate } from "@toast-ui/calendar";
 import Calendar from "@toast-ui/react-calendar";
 import "@toast-ui/calendar/dist/toastui-calendar.min.css";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import Button from "react-bootstrap/Button";
+import { ScheduleEvents } from "../constants/ScheduleEvents";
 
-const today = new TZDate();
-const initialEvents = [
-  {
-    id: "1",
-    user: "",
-    calendarId: "0",
-    title: "TOAST UI Calendar Study",
-    category: "time",
-    start: today,
-    end: addHours(today, 3),
-  },
-  {
-    id: "2",
-    uid: "",
-    calendarId: "0",
-    title: "Practice",
-    category: "time",
-    start: addDate(today, 1),
-    end: addDate(today, 1),
-  },
-  {
-    id: "3",
-    uid: "",
-    calendarId: "0",
-    title: "FE Workshop",
-    category: "allday",
-    start: subtractDate(today, 2),
-    end: subtractDate(today, 1),
-  },
-  {
-    id: "4",
-    uid: "",
-    calendarId: "0",
-    title: "Report",
-    category: "time",
-    start: today,
-    end: addHours(today, 1),
-  },
-];
-
-function Schedule() {
+function Schedule({ user }) {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
-  const user = useSelector((state) => state.isloggedIn.user);
-  var eventsForUser = initialEvents.map((event) => ({
-    ...event,
-    isReadOnly: event.user === user,
-  }));
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+  console.log(user);
 
   useEffect(() => {
-    eventsForUser = initialEvents.map((event) => ({
-      ...event,
-      isReadOnly: event.user === user,
-    }));
-
-    console.log(eventsForUser);
-  }, [user]);
+    if (isLoggedIn) {
+      ScheduleEvents.map((item) => {
+        const event = getCalInstance().getEvent(item.id, "");
+        const changes = { isReadOnly: user.id != item.user };
+        onBeforeUpdateEvent({ changes, event });
+      });
+    }
+  }, [isLoggedIn]);
 
   const getCalInstance = useCallback(
     () => calendarRef.current?.getInstance?.(),
@@ -76,16 +34,16 @@ function Schedule() {
       setSelectedDateRangeText("");
     }
 
-    const rangeStart = calInstance.getDateRangeStart();
-    const rangeEnd = calInstance.getDateRangeEnd();
+    const rangeStart = calInstance?.getDateRangeStart();
+    const rangeEnd = calInstance?.getDateRangeEnd();
 
-    let year = rangeStart.getFullYear();
-    let month = rangeStart.getMonth() + 1;
-    let date = rangeStart.getDate();
+    let year = rangeStart?.getFullYear();
+    let month = rangeStart?.getMonth() + 1;
+    let date = rangeStart?.getDate();
     let dateRangeText;
 
-    const endMonth = rangeEnd.getMonth() + 1;
-    const endDate = rangeEnd.getDate();
+    const endMonth = rangeEnd?.getMonth() + 1;
+    const endDate = rangeEnd?.getDate();
 
     const start = `${year}-${month < 10 ? "0" : ""}${month}-${
       date < 10 ? "0" : ""
@@ -103,7 +61,7 @@ function Schedule() {
 
   const onAfterRenderEvent = (res) => {
     console.group("onAfterRenderEvent");
-    console.log("Event Info : ", res.title);
+    console.log("Event Info : ", res.title, res.user);
     console.groupEnd();
   };
 
@@ -113,8 +71,14 @@ function Schedule() {
     console.groupEnd();
 
     const { id, calendarId } = res;
-
-    getCalInstance().deleteEvent(id, calendarId);
+    const indexToDelete = ScheduleEvents.findIndex((event) => event.id === id);
+    if (indexToDelete !== -1) {
+      ScheduleEvents.splice(indexToDelete, 1);
+      console.log(ScheduleEvents);
+      getCalInstance().deleteEvent(id, calendarId);
+    } else {
+      console.log("Event with ID not found.");
+    }
   };
 
   const onClickDayName = (res) => {
@@ -148,7 +112,13 @@ function Schedule() {
 
     const targetEvent = updateData.event;
     const changes = { ...updateData.changes };
-
+    const eventToUpdate = ScheduleEvents.find(
+      (event) => event.id === targetEvent.id
+    );
+    Object.keys(changes).map((k) => {
+      eventToUpdate[k] = changes[k];
+    });
+    console.log(Object.keys(changes));
     getCalInstance().updateEvent(
       targetEvent.id,
       targetEvent.calendarId,
@@ -160,6 +130,7 @@ function Schedule() {
     const event = {
       calendarId: "",
       id: String(Math.random()),
+      attendees: [user.name],
       title: eventData.title,
       isAllday: eventData.isAllday,
       start: eventData.start,
@@ -169,8 +140,11 @@ function Schedule() {
       location: eventData.location,
       state: eventData.state,
     };
-
+    console.log(user);
     getCalInstance().createEvents([event]);
+    event.user = user.id;
+    ScheduleEvents.push(event);
+    console.log(ScheduleEvents);
   };
 
   return (
@@ -204,61 +178,38 @@ function Schedule() {
         </span>
         <span className="render-range">{selectedDateRangeText}</span>
       </div>
-      <Calendar
-        usageStatistics={false}
-        height="900px"
-        calendars={[]}
-        events={eventsForUser}
-        template={{
-          allday(event) {
-            return `[All day] ${event.title}`;
-          },
-        }}
-        timezone={{
-          zones: [],
-        }}
-        useDetailPopup={true}
-        useFormPopup={true}
-        view="week"
-        week={{
-          timezonesCollapsed: false,
-          eventView: true,
-          taskView: false,
-        }}
-        ref={calendarRef}
-        onAfterRenderEvent={onAfterRenderEvent}
-        onBeforeDeleteEvent={onBeforeDeleteEvent}
-        onClickDayname={onClickDayName}
-        onClickEvent={onClickEvent}
-        onBeforeUpdateEvent={onBeforeUpdateEvent}
-        onBeforeCreateEvent={onBeforeCreateEvent}
-      />
+      {isLoggedIn && (
+        <Calendar
+          usageStatistics={false}
+          height="900px"
+          calendars={[]}
+          events={ScheduleEvents}
+          template={{
+            allday(event) {
+              return `[All day] ${event.title}`;
+            },
+          }}
+          timezone={{
+            zones: [],
+          }}
+          useDetailPopup={true}
+          useFormPopup={true}
+          view="week"
+          week={{
+            timezonesCollapsed: false,
+            eventView: true,
+            taskView: false,
+          }}
+          ref={calendarRef}
+          onAfterRenderEvent={onAfterRenderEvent}
+          onBeforeDeleteEvent={onBeforeDeleteEvent}
+          onClickDayname={onClickDayName}
+          onClickEvent={onClickEvent}
+          onBeforeUpdateEvent={onBeforeUpdateEvent}
+          onBeforeCreateEvent={onBeforeCreateEvent}
+        />
+      )}
     </React.Fragment>
   );
 }
 export default Schedule;
-
-function clone(date) {
-  return new TZDate(date);
-}
-
-function addHours(d, step) {
-  const date = clone(d);
-  date.setHours(d.getHours() + step);
-
-  return date;
-}
-
-function addDate(d, step) {
-  const date = clone(d);
-  date.setDate(d.getDate() + step);
-
-  return date;
-}
-
-function subtractDate(d, steps) {
-  const date = clone(d);
-  date.setDate(d.getDate() - steps);
-
-  return date;
-}
