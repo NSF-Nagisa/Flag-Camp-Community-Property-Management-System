@@ -1,7 +1,7 @@
 // @ts-ignore
 const { Role } = require("./Role");
 
-export const USERS = [
+export var USERS = [
   {
     id: 1,
     name: "Ruby",
