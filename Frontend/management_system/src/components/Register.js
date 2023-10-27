@@ -41,7 +41,7 @@ function Register() {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className="container d-flex justify-content-center mt-5">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="registerName">Name</label>

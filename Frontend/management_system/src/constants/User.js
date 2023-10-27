@@ -5,7 +5,7 @@ export var USERS = [
   {
     id: 1,
     name: "Ruby",
-    role: Role.Resident,
+    role: Role.resident,
     username: "resident",
     password: "123",
     phone: null,
@@ -23,7 +23,7 @@ export var USERS = [
     image: null,
   },
   {
-    id: 2,
+    id: 3,
     name: "Taylor",
     role: Role.ThirdPartyCompany,
     username: "thirdpartycompany",
@@ -33,7 +33,3 @@ export var USERS = [
     image: null,
   },
 ];
-export function updateUserById() {
-  USERS[0].phone = 123345;
-  console.log("USERS", USERS[0]);
-}
