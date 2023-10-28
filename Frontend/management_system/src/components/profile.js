@@ -6,10 +6,15 @@ import { updateUser } from "../slice/authSlice";
 function Profile() {
   const user = useSelector((state) => state.isLoggedIn.user);
   const [userData, setUserData] = useState(user);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
 
   const handleUpdate = (event) => {
     event.preventDefault();
+    if(userData.password !== confirmPassword){
+      alert("Confirm Password is not same as Password");
+      return;
+    }
     dispatch(updateUser(
       {
         id: user.id, 
@@ -42,7 +47,7 @@ function Profile() {
         <div className="form-group">
           <label htmlFor="loginPassword">Password </label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             id="loginPassword"
             name="password"
@@ -52,34 +57,22 @@ function Profile() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="userPhone">Phone </label>
+          <label htmlFor="loginPassword">Confirm Password </label>
           <input
-            type="text"
+            type="password"
             className="form-control"
-            id="userPhone"
-            name="phone"
-            onChange={handleInputChange}
-            value={userData.phone}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="userCompany">Company </label>
-          <input
-            type="text"
-            className="form-control"
-            id="userCompany"
-            name="company"
-            onChange={handleInputChange}
-            value={userData.company}
+            id="loginConfirmPassword"
+            name="confirmPassword"
+            onChange={(event) => {setConfirmPassword(event.target.value)}}
+            required
+            value={confirmPassword}
           />
         </div>
         <div className="container row">
           <button
             type="submit"
             className="btn btn-primary"
-            data-toggle="tooptip"
             data-placement="right"
-            title="sss"
           >
             Update
           </button>

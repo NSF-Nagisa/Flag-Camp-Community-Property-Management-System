@@ -28,8 +28,7 @@ function Register() {
       company: undefined,
       image: undefined,
     };
-    USERS[0].phone = 123345;
-    console.log("USERS", USERS[0]);
+
     // console.log(JSON.stringify(newUser));
     // ToDO: add fetch() to post newForm to /addUser API
     USERS.push(newUser);
@@ -51,6 +50,7 @@ function Register() {
             id="registerName"
             onChange={(e) => setName(e.target.value)}
             value={name}
+            placeholder="Name"
             required
           />
         </div>
@@ -62,6 +62,7 @@ function Register() {
             id="registerUsername"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
+            placeholder="Username"
             required
           />
         </div>
@@ -73,6 +74,7 @@ function Register() {
             id="registerPassword1"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            placeholder="Password"
             required
           />
         </div>
@@ -84,11 +86,12 @@ function Register() {
             id="registerPassword2"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
+            placeholder="Confirm Password"
             required
           />
           {isSameFlag ? null : (
             <div className="alert alert-danger" role="alert">
-              confirm password is not same as password, please check!
+              Confirm Password is not same as Password, please check!
             </div>
           )}
         </div>
@@ -146,7 +149,7 @@ function Register() {
             </label>
           </div>
         </div>
-        <div className="container row justify-content-between">
+        <div className="row ml-1">
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
