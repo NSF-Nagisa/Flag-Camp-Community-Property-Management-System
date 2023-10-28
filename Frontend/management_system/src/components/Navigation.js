@@ -35,7 +35,7 @@ function Navigation() {
                 Profile
               </Link>
             </li>
-            {user.role === Role.HOA ? (
+            {user.role === Role.HOA ? 
               <li className="nav-item">
                 <Link className="nav-link" to="/register">
                   Register
