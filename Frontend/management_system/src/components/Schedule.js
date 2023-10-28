@@ -4,14 +4,49 @@ import Calendar from "@toast-ui/react-calendar";
 import "@toast-ui/calendar/dist/toastui-calendar.min.css";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
-import Button from "react-bootstrap/Button";
-import { ScheduleEvents } from "../constants/ScheduleEvents";
 
+const ScheduleEvents = [
+  {
+    id: "1",
+    user: "2",
+    attendees: ["Henry"],
+    title: "Community Yard Sale",
+    category: "time",
+    start: "2023-10-30T03:00:00+09:00",
+    end: "2023-10-30T05:00:00+09:00",
+  },
+  {
+    id: "2",
+    user: "2",
+    attendees: ["Henry"],
+    title: "Monthly Maintenance Meeting",
+    category: "time",
+    start: "2023-10-30T23:00:00+09:00",
+    end: "2023-10-31T01:00:00+09:00",
+  },
+  {
+    id: "3",
+    user: "1",
+    attendees: ["Rubby"],
+    title: "New Family Move in",
+    category: "time",
+    start: "2023-10-31T02:00:00+09:00",
+    end: "2023-10-31T07:00:00+09:00",
+  },
+  {
+    id: "4",
+    user: "3",
+    attendees: ["Taylor"],
+    title: "Family Movie Night",
+    category: "time",
+    start: "2023-10-31T08:00:00+09:00",
+    end: "2023-10-31T10:30:00+09:00",
+  },
+];
 function Schedule({ user }) {
   const calendarRef = useRef(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState("");
   const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
-  console.log(user);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -59,16 +94,8 @@ function Schedule({ user }) {
     updateRenderRangeText();
   }, [updateRenderRangeText]);
 
-  const onAfterRenderEvent = (res) => {
-    console.group("onAfterRenderEvent");
-    console.log("Event Info : ", res.title, res.user);
-    console.groupEnd();
-  };
 
   const onBeforeDeleteEvent = (res) => {
-    console.group("onBeforeDeleteEvent");
-    console.log("Event Info : ", res.title);
-    console.groupEnd();
 
     const { id, calendarId } = res;
     const indexToDelete = ScheduleEvents.findIndex((event) => event.id === id);
@@ -79,12 +106,6 @@ function Schedule({ user }) {
     } else {
       console.log("Event with ID not found.");
     }
-  };
-
-  const onClickDayName = (res) => {
-    console.group("onClickDayName");
-    console.log("Date : ", res.date);
-    console.groupEnd();
   };
 
   const onClickNavi = (ev) => {
@@ -98,18 +119,8 @@ function Schedule({ user }) {
     }
   };
 
-  const onClickEvent = (res) => {
-    console.group("onClickEvent");
-    console.log("MouseEvent : ", res.nativeEvent);
-    console.log("Event Info : ", res.event);
-    console.groupEnd();
-  };
 
   const onBeforeUpdateEvent = (updateData) => {
-    console.group("onBeforeUpdateEvent");
-    console.log(updateData);
-    console.groupEnd();
-
     const targetEvent = updateData.event;
     const changes = { ...updateData.changes };
     const eventToUpdate = ScheduleEvents.find(
@@ -118,7 +129,6 @@ function Schedule({ user }) {
     Object.keys(changes).map((k) => {
       eventToUpdate[k] = changes[k];
     });
-    console.log(Object.keys(changes));
     getCalInstance().updateEvent(
       targetEvent.id,
       targetEvent.calendarId,
@@ -140,43 +150,41 @@ function Schedule({ user }) {
       location: eventData.location,
       state: eventData.state,
     };
-    console.log(user);
     getCalInstance().createEvents([event]);
     event.user = user.id;
     ScheduleEvents.push(event);
-    console.log(ScheduleEvents);
   };
 
   return (
     <React.Fragment>
-      <div>
-        <span>
-          <Button
+      <div className="row justify-content-center mt-1 mb-1">
+        <div className="col-2 d-flex justify-content-between">
+          <button
             type="button"
-            className="btn btn-default btn-sm move-today"
+            className="btn btn-outline-dark move-today"
             data-action="move-today"
             onClick={onClickNavi}
           >
             Today
-          </Button>
-          <Button
+          </button>
+          <button
             type="button"
-            className="btn btn-default btn-sm move-day"
+            className="btn btn-outline-dark move-day"
             data-action="move-prev"
             onClick={onClickNavi}
           >
-            Prev
-          </Button>
-          <Button
+            PREV
+          </button>
+          <button
             type="button"
-            className="btn btn-default btn-sm move-day"
+            className="btn btn-outline-dark move-day"
             data-action="move-next"
             onClick={onClickNavi}
           >
-            Next
-          </Button>
-        </span>
-        <span className="render-range">{selectedDateRangeText}</span>
+            NEXT
+          </button>
+        </div>
+        <p className="col-2 h5 mt-2">{selectedDateRangeText}</p>
       </div>
       {isLoggedIn && (
         <Calendar
@@ -201,10 +209,7 @@ function Schedule({ user }) {
             taskView: false,
           }}
           ref={calendarRef}
-          onAfterRenderEvent={onAfterRenderEvent}
           onBeforeDeleteEvent={onBeforeDeleteEvent}
-          onClickDayname={onClickDayName}
-          onClickEvent={onClickEvent}
           onBeforeUpdateEvent={onBeforeUpdateEvent}
           onBeforeCreateEvent={onBeforeCreateEvent}
         />

@@ -21,9 +21,22 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.value = false;
     },
+    updateUser: (state, action) =>{
+      const newUser = action.payload;
+      const userIndex = USERS.findIndex((u) => u.id === newUser.id);
+
+      state.user = {
+        ...state.user, 
+        name: newUser.name,
+        password: newUser.password,
+        phone: newUser.phone,
+        company: newUser.company 
+      };
+      USERS[userIndex] = state.user;
+    }
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updateUser } = authSlice.actions;
 
 export default authSlice.reducer

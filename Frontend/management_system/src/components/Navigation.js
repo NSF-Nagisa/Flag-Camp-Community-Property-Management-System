@@ -21,11 +21,6 @@ function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/discussion-board">
-                Discussion Board
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/schedule">
                 Schedule
               </Link>
@@ -35,7 +30,7 @@ function Navigation() {
                 Profile
               </Link>
             </li>
-            {user.role === Role.HOA ? (
+            {user.role === Role.HOA ? 
               <li className="nav-item">
                 <Link className="nav-link" to="/register">
                   Register

@@ -13,12 +13,10 @@ var initialData = [
   {
     id: 1,
     type: "events",
-    title: "Monthly Maintenance Meeting",
-    description:
-      'Discuss maintenance tasks, repairs, and vendor updates for the month of November.',
-    date: "2023-11-01",
-    time: "10:00 AM",
-    location: "Property Management Office",
+    title: "Family Movie Night",
+    description: `Bring your blankets and chairs for a fun family movie night under the stars. We'll be showing <The Pursuit of Happyness>. Popcorn and drinks will be provided.`,
+    date: "2023-10-30",
+    time: "19:00 PM",
   },
   {
     id: 2,
@@ -117,30 +115,32 @@ var initialData = [
   {
     id: 7,
     type: "events",
-    title: "Community Yard Sale",
-    description: `Clean out your closets and join our community yard sale! Reserve your spot and sell your items. It's a great opportunity to declutter and socialize with neighbors.`,
-    date: "2023-10-04",
-    time: "15:00 PM",
+    title: "Annual HOA Meeting",
+    description: `Our annual Homeowner's Association meeting is an opportunity to discuss community matters, review the budget, and elect board members. Your participation is crucial in shaping our community's future.`,
+    date: "2023-10-30",
+    time: "14:00 PM",
   },
   {
     id: 8,
     type: "events",
-    title: "Family Movie Night",
-    description: `Bring your blankets and chairs for a fun family movie night under the stars. We'll be showing <The Pursuit of Happyness>. Popcorn and drinks will be provided.`,
-    date: "2023-09-27",
-    time: "19:00 PM",
+    title: "Monthly Maintenance Meeting",
+    description:
+      'Discuss maintenance tasks, repairs, and vendor updates for the month of November.',
+    date: "2023-10-30",
+    time: "10:00 AM",
+    location: "Property Management Office",
   },
   {
     id: 9,
     type: "events",
-    title: "Annual HOA Meeting",
-    description: `Our annual Homeowner's Association meeting is an opportunity to discuss community matters, review the budget, and elect board members. Your participation is crucial in shaping our community's future.`,
-    date: "2023-09-20",
-    time: "14:00 PM",
+    title: "Community Yard Sale",
+    description: `Clean out your closets and join our community yard sale! Reserve your spot and sell your items. It's a great opportunity to declutter and socialize with neighbors.`,
+    date: "2023-10-29",
+    time: "15:00 PM",
   },
 ];
 
-function Dashboard() {
+function Dashboard(props) {
   const [items, setItems] = useState(initialData);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
 
@@ -175,7 +175,7 @@ function Dashboard() {
     if (user.role === Role.HOA) {
       const updatedItems = items.filter((item) => item.id !== itemId);
       setItems(updatedItems);
-      initialData = initialData.filter((obj) => obj.id != itemId);
+      initialData = initialData.filter((obj) => obj.id !== itemId);
     }
   };
 
