@@ -25,7 +25,7 @@ function Profile() {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className="container d-flex justify-content-center mt-5">
       <form onSubmit={handleUpdate}>
         <div className="form-group">
           <label htmlFor="name">Name</label>

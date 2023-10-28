@@ -6,7 +6,7 @@ import Dashboard from "./Dashboard";
 import DiscussionBoard from "./DiscussionBoard";
 import Schedule from "./Schedule";
 import auth from "../utils/auth.hoc";
-import Profile from "./profile";
+import Profile from "./Profile";
 import { useSelector } from "react-redux";
 import { Role } from "../constants/Role";
 
