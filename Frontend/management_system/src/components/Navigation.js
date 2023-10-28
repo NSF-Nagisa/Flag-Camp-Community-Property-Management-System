@@ -21,11 +21,6 @@ function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/discussion-board">
-                Discussion Board
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/schedule">
                 Schedule
               </Link>

@@ -140,7 +140,7 @@ var initialData = [
   },
 ];
 
-function Dashboard() {
+function Dashboard(props) {
   const [items, setItems] = useState(initialData);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
 
@@ -175,7 +175,7 @@ function Dashboard() {
     if (user.role === Role.HOA) {
       const updatedItems = items.filter((item) => item.id !== itemId);
       setItems(updatedItems);
-      initialData = initialData.filter((obj) => obj.id != itemId);
+      initialData = initialData.filter((obj) => obj.id !== itemId);
     }
   };
 

@@ -23,7 +23,7 @@ export const authSlice = createSlice({
     },
     updateUser: (state, action) =>{
       const newUser = action.payload;
-      const userIndex = USERS.findIndex((u) => u.id == newUser.id);
+      const userIndex = USERS.findIndex((u) => u.id === newUser.id);
 
       state.user = {
         ...state.user, 

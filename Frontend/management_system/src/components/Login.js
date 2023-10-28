@@ -24,7 +24,7 @@ function Login(props) {
     if(isLoggedIn) {
       props.history.push("/dashboard");
     }
-  },[isLoggedIn]);
+  },[isLoggedIn, props.history]);
   return (
     <div className="container d-flex justify-content-center">
       <div className="col mt-5">
@@ -49,7 +49,7 @@ function Login(props) {
                 <input type="password" className="form-control" id="loginPassword" placeholder="Password" required/>
               </div>
             </div>
-            <div className="row justify-content-center" style={{marginLeft: '20%'}}>
+            <div className="row justify-content-center" style={{marginLeft: '23%'}}>
               <button type="submit" className="btn btn-primary">Submit</button>
             </div>
           </form>
